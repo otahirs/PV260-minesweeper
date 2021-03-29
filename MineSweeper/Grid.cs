@@ -11,13 +11,7 @@ namespace MineSweeper
         public Grid(int size)
         {
             Size = size;
-            _grid = new Cell[Size, Size];
-            
-            for (var row = 0; row < Size; row++)
-            for (var col = 0; col < Size; col++)
-            {
-                _grid[row, col] = new Cell();
-            }
+            _grid = GridGenerator.Generate(size);
         }
 
         public Cell GetCell(int x, int y)
