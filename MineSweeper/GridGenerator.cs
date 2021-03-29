@@ -2,10 +2,10 @@
 
 namespace MineSweeper
 {
-    public static class GridGenerator
+    public class GridGenerator : IGridGenerator
     {
         //TODO refactor exceptions
-        public static Cell[,] Generate(int size, int mineCount)
+        public Cell[,] Generate(int size, int mineCount)
         {
             if (size < 1)
             {
@@ -24,7 +24,7 @@ namespace MineSweeper
             return cells;
         }
 
-        private static void FillMines(Cell[,] cells, int size, int mineCount)
+        private void FillMines(Cell[,] cells, int size, int mineCount)
         {
             var r = new Random();
             

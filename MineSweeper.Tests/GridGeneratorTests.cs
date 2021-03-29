@@ -47,5 +47,27 @@ namespace MineSweeper.Tests
 
             actualMineCount.Should().Be(mineCount);
         }
+
+        [Test]
+        public void GivenGrid_NeighbourghMatrixShouldBeValid()
+        {
+            var expectedMatrix =  new Cell[,]
+            {
+                { new Cell { IsMine = true }, new Cell { WarnCount = 1 }, new Cell() },
+                { new Cell { WarnCount = 3 }, new Cell { WarnCount = 2 }, new Cell { WarnCount = 1 } },
+                { new Cell { IsMine = true }, new Cell { IsMine = true }, new Cell { WarnCount = 1 } }
+            };
+            
+            var cells =  new Cell[,]
+            {
+                { new Cell { IsMine = true }, new Cell(), new Cell() },
+                { new Cell(), new Cell(), new Cell() },
+                { new Cell { IsMine = true }, new Cell { IsMine = true }, new Cell() }
+            };
+
+            GridGenerator.ComputeWarnCount(cells, 3);
+
+            cells.Should().BeEquivalentTo(expectedMatrix);
+        }
     }
 }
