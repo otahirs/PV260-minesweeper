@@ -28,8 +28,8 @@ namespace MineSweeper
             
             while (mineCount > 0)
             {
-                var row = r.Next(0, size - 1);
-                var col = r.Next(0, size - 1);
+                var row = r.Next(0, size);
+                var col = r.Next(0, size);
 
                 if (!cells[row, col].IsMine)
                 {

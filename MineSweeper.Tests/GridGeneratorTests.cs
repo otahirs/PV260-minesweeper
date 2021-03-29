@@ -29,23 +29,6 @@ namespace MineSweeper.Tests
         }
 
         [Test]
-        public void GivenNewGrid_AllCellsAreNotDiscovered()
-        {
-            const int size = 3;
-            const int mineCount = 1;
-            var g = new Grid(size, mineCount);
-
-            for (int row = 0; row < size; row++)
-            {
-                for (int col = 0; col < size; col++)
-                {
-                    var cell = g.GetCell(row, col);
-                    cell.IsDiscovered.Should().Be(false);
-                }
-            }
-        }
-
-        [Test]
         [TestCase(10, 2)]
         [TestCase(10, 6)]
         public void GivenSize_GeneratedGridHasAllowedNumberOfMines(int size, int mineCount)
@@ -54,15 +37,11 @@ namespace MineSweeper.Tests
 
             int actualMineCount = 0;
 
-            for (int row = 0; row < size; row++)
+            foreach (var cell in cells)
             {
-                for (int col = 0; col < size; col++)
+                if (cell.IsMine)
                 {
-                    var cell = cells[row, col];
-                    if (cell.IsMine)
-                    {
-                        actualMineCount++;
-                    }
+                    actualMineCount++;
                 }
             }
 
