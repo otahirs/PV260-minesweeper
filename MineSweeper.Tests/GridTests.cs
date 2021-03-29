@@ -21,7 +21,7 @@ namespace MineSweeper.Tests
 
             Action act = () => g.GetCell(42, 42);
 
-            act.Should().Throw<Exception>();
+            act.Should().Throw<IndexOutOfRangeException>();
         }
 
         [Test]
