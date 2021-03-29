@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper", "MineSweeper\MineSweeper.csproj", "{C5ADC1DE-3C1A-4C51-A47A-19F2459AFD70}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper.Tests", "MineSweeper.Tests\MineSweeper.Tests.csproj", "{67EB54E8-A9A5-4E67-B99E-8450B322DE00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{C5ADC1DE-3C1A-4C51-A47A-19F2459AFD70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5ADC1DE-3C1A-4C51-A47A-19F2459AFD70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5ADC1DE-3C1A-4C51-A47A-19F2459AFD70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67EB54E8-A9A5-4E67-B99E-8450B322DE00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67EB54E8-A9A5-4E67-B99E-8450B322DE00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67EB54E8-A9A5-4E67-B99E-8450B322DE00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67EB54E8-A9A5-4E67-B99E-8450B322DE00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
