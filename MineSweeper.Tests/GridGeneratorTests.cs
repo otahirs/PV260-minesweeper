@@ -12,7 +12,7 @@ namespace MineSweeper.Tests
         [TestCase(42)]
         public void GivenDesiredSize_GeneratedGridHasCorrectSize(int size)
         {
-            var cells = GridGenerator.Generate(size);
+            var cells = GridGenerator.Generate(size, size);
 
             cells.Length.Should().Be(size * size);
             cells.GetLength(0).Should().Be(size);
@@ -23,7 +23,7 @@ namespace MineSweeper.Tests
         [TestCase(-3)]
         public void GivenInvalidSize_GridGeneratorThrowsException(int invalidSize)
         {
-            Action act = () => GridGenerator.Generate(invalidSize);
+            Action act = () => GridGenerator.Generate(invalidSize, invalidSize);
 
             act.Should().Throw<ArgumentException>();
         }
@@ -32,7 +32,8 @@ namespace MineSweeper.Tests
         public void GivenNewGrid_AllCellsAreNotDiscovered()
         {
             const int size = 3;
-            var g = new Grid(size);
+            const int mineCount = 1;
+            var g = new Grid(size, mineCount);
 
             for (int row = 0; row < size; row++)
             {

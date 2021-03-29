@@ -8,10 +8,10 @@ namespace MineSweeper
 
         public int Size { get; }
 
-        public Grid(int size)
+        public Grid(int size, int mineCount)
         {
             Size = size;
-            _grid = GridGenerator.Generate(size);
+            _grid = GridGenerator.Generate(size, mineCount);
         }
 
         public Cell GetCell(int x, int y)
