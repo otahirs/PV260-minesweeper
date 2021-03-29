@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace MineSweeper.Tests
@@ -15,6 +16,16 @@ namespace MineSweeper.Tests
 
             cells.Length.Should().Be(size * size);
             cells.GetLength(0).Should().Be(size);
+        }
+
+        [Test]
+        [TestCase(0)]
+        [TestCase(-3)]
+        public void GivenInvalidSize_GridGeneratorThrowsException(int invalidSize)
+        {
+            Action act = () => GridGenerator.Generate(invalidSize);
+
+            act.Should().Throw<ArgumentException>();
         }
 
         [Test]
