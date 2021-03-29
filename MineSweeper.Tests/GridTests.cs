@@ -1,6 +1,6 @@
-using System;
 using FluentAssertions;
 using NUnit.Framework;
+using System;
 
 namespace MineSweeper.Tests
 {
@@ -28,7 +28,8 @@ namespace MineSweeper.Tests
         [TestCase(4)]
         public void GivenNewGrid_AllCellsAreNotDiscovered(int size)
         {
-            Grid g = new Grid(size);
+            var g = new Grid(size);
+
             for (int row = 0; row < size; row++)
             {
                 for (int col = 0; col < size; col++)

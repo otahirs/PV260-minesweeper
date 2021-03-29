@@ -2,6 +2,6 @@
 {
     public class Cell
     {
-        
+        public bool IsDiscovered { get; set; }
     }
 }
