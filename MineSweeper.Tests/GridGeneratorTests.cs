@@ -43,5 +43,29 @@ namespace MineSweeper.Tests
                 }
             }
         }
+
+        [Test]
+        [TestCase(10, 2)]
+        [TestCase(10, 6)]
+        public void GivenSize_GeneratedGridHasAllowedNumberOfMines(int size, int mineCount)
+        {
+            var cells = GridGenerator.Generate(size, mineCount);
+
+            int actualMineCount = 0;
+
+            for (int row = 0; row < size; row++)
+            {
+                for (int col = 0; col < size; col++)
+                {
+                    var cell = cells[row, col];
+                    if (cell.IsMine)
+                    {
+                        actualMineCount++;
+                    }
+                }
+            }
+
+            actualMineCount.Should().Be(mineCount);
+        }
     }
 }
