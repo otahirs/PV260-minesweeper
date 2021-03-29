@@ -11,9 +11,10 @@ namespace MineSweeper.Tests
         [TestCase(42)]
         public void GivenDesiredSize_GeneratedGridHasCorrectSize(int size)
         {
-            var grid = GridGenerator.Generate(size);
+            var cells = GridGenerator.Generate(size);
 
-            grid.Size.Should().Be(size);
+            cells.Length.Should().Be(size * size);
+            cells.GetLength(0).Should().Be(size);
         }
 
         [Test]

@@ -5,15 +5,16 @@ namespace MineSweeper
     public class Grid
     {
         private  Cell[,] _grid;
-        private int _size;
+
+        public int Size { get; }
 
         public Grid(int size)
         {
-            _size = size;
-            _grid = new Cell[_size, _size];
+            Size = size;
+            _grid = new Cell[Size, Size];
             
-            for (var row = 0; row < _size; row++)
-            for (var col = 0; col < _size; col++)
+            for (var row = 0; row < Size; row++)
+            for (var col = 0; col < Size; col++)
             {
                 _grid[row, col] = new Cell();
             }
