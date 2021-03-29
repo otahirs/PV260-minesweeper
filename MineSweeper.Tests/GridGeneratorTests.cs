@@ -54,7 +54,7 @@ namespace MineSweeper.Tests
             var expectedMatrix =  new Cell[,]
             {
                 { new Cell { IsMine = true }, new Cell { WarnCount = 1 }, new Cell() },
-                { new Cell { WarnCount = 3 }, new Cell { WarnCount = 2 }, new Cell { WarnCount = 1 } },
+                { new Cell { WarnCount = 3 }, new Cell { WarnCount = 3 }, new Cell { WarnCount = 1 } },
                 { new Cell { IsMine = true }, new Cell { IsMine = true }, new Cell { WarnCount = 1 } }
             };
             
