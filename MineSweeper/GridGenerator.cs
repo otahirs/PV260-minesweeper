@@ -4,26 +4,28 @@ namespace MineSweeper
 {
     public static class GridGenerator
     {
+        //TODO refactor exceptions
         public static Cell[,] Generate(int size, int mineCount)
         {
             if (size < 1)
             {
-                throw new ArgumentException();
+                throw new ArgumentException("Size has to be at least 1");
             }
 
-            if (mineCount > size)
+            if (mineCount > size * size)
             {
-                throw new ArgumentException();
+                throw new ArgumentException("Number of mines has to be" +
+                                            " smaller than number of cells in the grid");
             }
+
+            var cells = CreateCells(size);
+            FillMines(cells, size, mineCount);
             
-            var cells = new Cell[size, size];
+            return cells;
+        }
 
-            for (var row = 0; row < size; row++)
-            for (var col = 0; col < size; col++)
-            {
-                cells[row, col] = new Cell();
-            }
-
+        private static void FillMines(Cell[,] cells, int size, int mineCount)
+        {
             var r = new Random();
             
             while (mineCount > 0)
@@ -37,7 +39,18 @@ namespace MineSweeper
                     mineCount--;
                 }
             }
-            
+        }
+        
+        private static Cell[,] CreateCells(int size)
+        {
+            var cells = new Cell[size, size];
+
+            for (var row = 0; row < size; row++)
+            for (var col = 0; col < size; col++)
+            {
+                cells[row, col] = new Cell();
+            }
+
             return cells;
         }
     }
