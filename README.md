@@ -1,3 +1,8 @@
+# MineSweeper Class Diagram
+
+![alt text](pv260_hw1_normal.png "MineSweeper Class Diagram")  
+
+
 # Úkol 1 - TDD
 
 S využitím TDD naprogramujte hru "Hledání min".
