@@ -1,18 +1,26 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NUnit.Framework;
+using System;
 
 namespace MineSweeper.Tests
 {
     public class GridGeneratorTests
     {
+        private IGridGenerator gridGenerator;
+
+        [SetUp]
+        public void Setup()
+        {
+            gridGenerator = new GridGenerator();
+        }
+
         [Test]
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(42)]
         public void GivenDesiredSize_GeneratedGridHasCorrectSize(int size)
         {
-            var cells = GridGenerator.Generate(size, size);
+            var cells = gridGenerator.Generate(size, size);
 
             cells.Length.Should().Be(size * size);
             cells.GetLength(0).Should().Be(size);
@@ -23,7 +31,7 @@ namespace MineSweeper.Tests
         [TestCase(-3)]
         public void GivenInvalidSize_GridGeneratorThrowsException(int invalidSize)
         {
-            Action act = () => GridGenerator.Generate(invalidSize, invalidSize);
+            Action act = () => gridGenerator.Generate(invalidSize, invalidSize);
 
             act.Should().Throw<ArgumentException>();
         }
@@ -33,7 +41,7 @@ namespace MineSweeper.Tests
         [TestCase(10, 6)]
         public void GivenSize_GeneratedGridHasAllowedNumberOfMines(int size, int mineCount)
         {
-            var cells = GridGenerator.Generate(size, mineCount);
+            var cells = gridGenerator.Generate(size, mineCount);
 
             int actualMineCount = 0;
 
@@ -53,19 +61,19 @@ namespace MineSweeper.Tests
         {
             var expectedMatrix =  new Cell[,]
             {
-                { new Cell { IsMine = true }, new Cell { WarnCount = 1 }, new Cell() },
-                { new Cell { WarnCount = 3 }, new Cell { WarnCount = 3 }, new Cell { WarnCount = 1 } },
-                { new Cell { IsMine = true }, new Cell { IsMine = true }, new Cell { WarnCount = 1 } }
+                { new() { IsMine = true }, new() { WarnCount = 1 }, new() },
+                { new() { WarnCount = 3 }, new() { WarnCount = 3 }, new() { WarnCount = 1 } },
+                { new() { IsMine = true }, new() { IsMine = true }, new() { WarnCount = 1 } }
             };
             
             var cells =  new Cell[,]
             {
-                { new Cell { IsMine = true }, new Cell(), new Cell() },
-                { new Cell(), new Cell(), new Cell() },
-                { new Cell { IsMine = true }, new Cell { IsMine = true }, new Cell() }
+                { new() { IsMine = true }, new(), new() },
+                { new(), new(), new() },
+                { new() { IsMine = true }, new() { IsMine = true }, new() }
             };
 
-            GridGenerator.ComputeWarnCount(cells, 3);
+            gridGenerator.ComputeWarnCount(cells, 3);
 
             cells.Should().BeEquivalentTo(expectedMatrix);
         }

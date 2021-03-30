@@ -7,10 +7,18 @@ namespace MineSweeper.Tests
 {
     public class GridTests
     {
+        private IGridGenerator gridGenerator;
+
+        [SetUp]
+        public void Setup()
+        {
+            gridGenerator = new GridGenerator();
+        }
+
         [Test]
         public void GetCell_IsNotNull()
         {
-            var g = new Grid(3, 1);
+            var g = new Grid(3, 1, gridGenerator);
             var cell = g.GetCell(0, 0);
             cell.Should().NotBeNull();
         }
@@ -18,7 +26,7 @@ namespace MineSweeper.Tests
         [Test]
         public void GetCell_OutOfBounds_ThrowsException()
         {
-            var g = new Grid(3, 1);
+            var g = new Grid(3, 1, gridGenerator);
 
             Action act = () => g.GetCell(42, 42);
 
@@ -30,7 +38,7 @@ namespace MineSweeper.Tests
         {
             const int size = 3;
             const int mineCount = 1;
-            var g = new Grid(size, mineCount);
+            var g = new Grid(size, mineCount, gridGenerator);
 
             for (int row = 0; row < size; row++)
             {
@@ -45,7 +53,7 @@ namespace MineSweeper.Tests
         [Test]
         public void GivenCellCoords_ReturnCorrectNeighbours()
         {
-            var g = new Grid(3, 3);
+            var g = new Grid(3, 3, gridGenerator);
 
             var expectedNeighbours = new List<Cell>();
             expectedNeighbours.Add(g.GetCell(0, 0));

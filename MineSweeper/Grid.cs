@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MineSweeper
 {
     public class Grid
     {
         private  Cell[,] _grid;
-
         public int Size { get; }
 
-        public Grid(int size, int mineCount)
+        public Grid(int size, int mineCount, IGridGenerator generator)
         {
             Size = size;
-            _grid = GridGenerator.Generate(size, mineCount);
+            _grid = generator.Generate(size, mineCount);
         }
 
         public Cell GetCell(int x, int y)
