@@ -1,7 +1,9 @@
-using System;
-using NUnit.Framework;
 using FakeItEasy;
 using FluentAssertions;
+using MineSweeper.Configuration;
+using MineSweeper.Enums;
+using NUnit.Framework;
+using System;
 
 namespace MineSweeper.Tests
 {
@@ -17,20 +19,18 @@ namespace MineSweeper.Tests
 
         [Test]
         [TestCase(-1)]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(51)]
+        [TestCase(GameConfiguration.MinAllowedGridSize - 1)]
+        [TestCase(GameConfiguration.MaxAllowedGridSize + 1)]
         public void GivenInvalidSizes_ThrowsArgumentException(int size)
         {
-
             Action act = () => new MineSweeper(size, gridGenerator);
 
             act.Should().Throw<ArgumentException>();
         }
         
         [Test]
-        [TestCase(3)]
-        [TestCase(50)]
+        [TestCase(GameConfiguration.MinAllowedGridSize)]
+        [TestCase(GameConfiguration.MaxAllowedGridSize)]
         public void GivenValidSizes_CreatesValidMineSweeper(int size)
         {
             Action act = () => new MineSweeper(size, gridGenerator);
@@ -140,7 +140,6 @@ namespace MineSweeper.Tests
             mineSweeper.GetCell(0, 0).IsFlagged.Should().BeTrue();
         }
         
-        
         [Test]
         public void TurnPlayedAllDiscovered_Win()
         {
@@ -156,7 +155,6 @@ namespace MineSweeper.Tests
                 .Returns(cells);
 
             var game = new MineSweeper(3, fakeGenerator);
-
             var gameStatus = game.PlayTurn(2, 2, TurnType.ToggleFlag);
 
             gameStatus.Should().Be(GameStatus.Win);

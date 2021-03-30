@@ -1,4 +1,4 @@
-namespace MineSweeper
+namespace MineSweeper.Enums
 {
     public enum TurnType
     {

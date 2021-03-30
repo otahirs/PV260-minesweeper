@@ -18,15 +18,23 @@ namespace MineSweeper.Tests
         [Test]
         public void GetCell_IsNotNull()
         {
-            var g = new Grid(3, 1, gridGenerator);
+            const int size = 3;
+            const int mineCount = 3;
+            var cells = gridGenerator.Generate(size, mineCount);
+            var g = new Grid(size, cells);
+
             var cell = g.GetCell(0, 0);
+            
             cell.Should().NotBeNull();
         }
 
         [Test]
         public void GetCell_OutOfBounds_ThrowsException()
         {
-            var g = new Grid(3, 1, gridGenerator);
+            const int size = 3;
+            const int mineCount = 3;
+            var cells = gridGenerator.Generate(size, mineCount);
+            var g = new Grid(size, cells);
 
             Action act = () => g.GetCell(42, 42);
 
@@ -37,12 +45,13 @@ namespace MineSweeper.Tests
         public void GivenNewGrid_AllCellsAreNotDiscovered()
         {
             const int size = 3;
-            const int mineCount = 1;
-            var g = new Grid(size, mineCount, gridGenerator);
+            const int mineCount = 3;
+            var cells = gridGenerator.Generate(size, mineCount);
+            var g = new Grid(size, cells);
 
-            for (int row = 0; row < size; row++)
+            for (var row = 0; row < size; row++)
             {
-                for (int col = 0; col < size; col++)
+                for (var col = 0; col < size; col++)
                 {
                     var cell = g.GetCell(row, col);
                     cell.IsDiscovered.Should().Be(false);
@@ -53,7 +62,11 @@ namespace MineSweeper.Tests
         [Test]
         public void GivenCellCoords_ReturnCorrectNeighbours()
         {
-            var g = new Grid(3, 3, gridGenerator);
+            const int size = 3;
+            const int mineCount = 3;
+            var cells = gridGenerator.Generate(size, mineCount);
+            var g = new Grid(size, cells);
+
             var expectedNeighbours = new List<Cell>
             {
                 g.GetCell(0, 0),

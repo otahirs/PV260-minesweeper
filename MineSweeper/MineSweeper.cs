@@ -1,29 +1,46 @@
-﻿using System;
+﻿using MineSweeper.Configuration;
+using MineSweeper.Enums;
+using MineSweeper.Extensions;
+using System;
 using System.Linq;
 
 namespace MineSweeper
 {
-    public class MineSweeper
+    public class MineSweeper : IMineSweeper
     {
-        private const int MinePercentageLowerBound = 20;
-        private const int MinePercentageUpperBound = 60;
-        
-        private readonly int mineCount;
-        private readonly Grid grid;
-        
+        private readonly IGridGenerator gridGenerator;
+        private Grid grid;
+
         public MineSweeper(int size, IGridGenerator gridGenerator)
         {
-            if (size < 3 || size > 50)
+            if (!size.IsInRangeInclusive(GameConfiguration.MinAllowedGridSize, GameConfiguration.MaxAllowedGridSize))
             {
-                throw new ArgumentException("Size of the game plan has to be between" +
-                                            " 3 and 50!");
+                throw new ArgumentException(
+                    $"Size of the game plan has to be between {GameConfiguration.MinAllowedGridSize} " +
+                    $"and {GameConfiguration.MaxAllowedGridSize}!");
             }
-            
-            var random = new Random();
-            var minesPercent = random.Next(MinePercentageLowerBound, MinePercentageUpperBound + 1);
-            mineCount = (int) (( minesPercent / 100.0 ) * size * size);
 
-            grid = new Grid(size, mineCount, gridGenerator);
+            this.gridGenerator = gridGenerator;
+
+            InitializeGrid(size);
+        }
+
+        private void InitializeGrid(int size)
+        {
+            var mineCount = GenerateRandomMineCount(size);
+            var cells = gridGenerator.Generate(size, mineCount);
+            grid = new Grid(size, cells);
+        }
+
+        private static int GenerateRandomMineCount(int size)
+        {
+            var random = new Random();
+            var minesPercent = random.Next(
+                GameConfiguration.MinMinePercentage,
+                GameConfiguration.MaxMinePercentage + 1);
+
+            var mineCount = (int) ((minesPercent / 100.0) * size * size);
+            return mineCount;
         }
 
         public GameStatus PlayTurn(int x, int y, TurnType turnType)
@@ -34,7 +51,7 @@ namespace MineSweeper
             {
                 TurnType.DiscoverCell => PlayTurnDiscover(cell),
                 TurnType.ToggleFlag => PlayTurnFlag(cell),
-                _ => throw new ArgumentException("Invalid Turn Type")
+                _ => throw new ArgumentException($"Unknown Turn Type '{turnType}'.")
             };
 
             if (gameStatus != GameStatus.InProgress)
@@ -42,10 +59,10 @@ namespace MineSweeper
                 return gameStatus;
             }
 
-            return CheckWin();
+            return CheckIsWin();
         }
 
-        private GameStatus CheckWin() 
+        private GameStatus CheckIsWin() 
             => grid.GetCells().All(cell => cell.IsCompleted)
                 ? GameStatus.Win 
                 : GameStatus.InProgress;
