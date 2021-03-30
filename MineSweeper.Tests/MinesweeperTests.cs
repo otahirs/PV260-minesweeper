@@ -9,10 +9,32 @@ namespace MineSweeper.Tests
         {
         }
 
+        
         [Test]
-        public void P()
+        public void TurnPlayedEmptyCellDiscovered_TurnOK()
         {
-            Assert.Pass();
+            
+        }
+        
+        
+        [Test]
+        public void TurnPlayedMineDiscovered_BoomHappened()
+        {
+            var game = MineSweeper(size: 3, mineCount: 9);
+            var status = game.PlayTurn(x, y);
+            status.Should().Be(GameStatus.Boom);
+        }
+        
+        [Test]
+        public void TurnPlayedAllDiscovered_Win()
+        {
+            
+        }
+        
+        [Test]
+        public void ZeroCellSelected_NeighboursAreDiscovered()
+        {
+            //TODO
         }
     }
 }
