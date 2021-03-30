@@ -16,13 +16,13 @@ namespace MineSweeper
         public Cell GetCell(int x, int y)
             => _grid[x, y];
 
-        public IEnumerable<Cell> GetNeighbours(int x, int y)
+        public IEnumerable<Cell> GetNeighbours(Cell cell)
         {
             var result = new List<Cell>();
-            for (var i = x - 1; i <= x + 1; i++)
-            for (var j = y - 1; j <= y + 1; j++)
+            for (var i = cell.X - 1; i <= cell.X + 1; i++)
+            for (var j = cell.Y - 1; j <= cell.Y + 1; j++)
             {
-                if (i >= 0 && i < Size && j >= 0 && j < Size && (i != x || j != y))
+                if (i >= 0 && i < Size && j >= 0 && j < Size && (i != cell.X || j != cell.Y))
                     result.Add(GetCell(i,j));
             }
             return result;

@@ -28,9 +28,23 @@ namespace MineSweeper
                 return GameStatus.Boom;
             }
 
-            cell.IsDiscovered = true;
+            DiscoverCells(cell);
 
             return GameStatus.InProgress;
+        }
+
+        private void DiscoverCells(Cell cell)
+        {
+            cell.IsDiscovered = true;
+            if (cell.WarnCount != 0) return;
+
+            foreach (var neighbour in grid.GetNeighbours(cell))
+            {
+                if (!neighbour.IsDiscovered && !neighbour.IsMine)
+                {
+                    DiscoverCells(neighbour);
+                }
+            }
         }
 
         public CellDto GetCell(int x, int y)

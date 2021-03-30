@@ -14,7 +14,7 @@ namespace MineSweeper.Tests
             gridGenerator = new GridGenerator();
         }
 
-        
+
         [Test]
         public void TurnPlayedEmptyCellDiscovered_TurnOK()
         {
@@ -50,7 +50,7 @@ namespace MineSweeper.Tests
                 .Returns(cells);
 
             var game = new MineSweeper(2, fakeGenerator);
-            
+
             game.PlayTurn(0, 0);
 
             var cell = game.GetCell(0, 0);
@@ -60,7 +60,7 @@ namespace MineSweeper.Tests
         [Test]
         public void TurnPlayedMineDiscovered_BoomHappened()
         {
-            var cells = new Cell[,] 
+            var cells = new Cell[,]
             {
                 { new() { IsMine = true } },
             };
@@ -80,9 +80,9 @@ namespace MineSweeper.Tests
         {
             var cells = new Cell[,]
             {
-                { new(), new(), new() },
-                { new(), new(), new() },
-                { new(), new(), new() {IsMine = true} },
+                { new() {X = 0, Y = 0, WarnCount = 0}, new() {X = 0, Y = 1, WarnCount = 0}, new() {X = 0, Y = 2, WarnCount = 0} },
+                { new() {X = 1, Y = 0, WarnCount = 0}, new() {X = 1, Y = 1, WarnCount = 1}, new() {X = 1, Y = 2, WarnCount = 1} },
+                { new() {X = 2, Y = 0, WarnCount = 0}, new() {X = 2, Y = 1, WarnCount = 1}, new() {X = 2, Y = 2, IsMine = true} },
             };
 
             var fakeGenerator = A.Fake<IGridGenerator>();
@@ -102,15 +102,15 @@ namespace MineSweeper.Tests
             game.GetCell(2, 0).IsDiscovered.Should().BeTrue();
             game.GetCell(2, 1).IsDiscovered.Should().BeTrue();
 
-            game.GetCell(2, 1).IsDiscovered.Should().BeFalse();
+            game.GetCell(2, 2).IsDiscovered.Should().BeFalse();
         }
 
         [Test]
         public void TurnPlayedAllDiscovered_Win()
         {
-            
+
         }
-        
+
 
     }
 }

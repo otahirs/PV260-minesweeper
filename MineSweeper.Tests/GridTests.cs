@@ -54,15 +54,16 @@ namespace MineSweeper.Tests
         public void GivenCellCoords_ReturnCorrectNeighbours()
         {
             var g = new Grid(3, 3, gridGenerator);
+            var expectedNeighbours = new List<Cell>
+            {
+                g.GetCell(0, 0),
+                g.GetCell(0, 1),
+                g.GetCell(1, 1),
+                g.GetCell(2, 0),
+                g.GetCell(2, 1)
+            };
 
-            var expectedNeighbours = new List<Cell>();
-            expectedNeighbours.Add(g.GetCell(0, 0));
-            expectedNeighbours.Add(g.GetCell(0, 1));
-            expectedNeighbours.Add(g.GetCell(1, 1));
-            expectedNeighbours.Add(g.GetCell(2, 0));
-            expectedNeighbours.Add(g.GetCell(2, 1));
-            
-            g.GetNeighbours(1, 0).Should().BeEquivalentTo(expectedNeighbours);
+            g.GetNeighbours(g.GetCell(1, 0)).Should().BeEquivalentTo(expectedNeighbours);
         }
     }
 }

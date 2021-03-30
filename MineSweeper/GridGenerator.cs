@@ -48,7 +48,7 @@ namespace MineSweeper
             for (var row = 0; row < size; row++)
             for (var col = 0; col < size; col++)
             {
-                cells[row, col] = new Cell();
+                cells[row, col] = new Cell {X = row, Y = col};
             }
 
             return cells;
