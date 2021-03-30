@@ -44,17 +44,17 @@ namespace MineSweeper.Tests
         {
             var cells = new Cell[,]
             {
-                { new(), new() },
-
-                { new(), new() {IsMine = true} },
+                { new(), new(), new() },
+                { new(), new() {IsMine = true}, new() },
+                { new(), new(), new() }
             };
-
+            
             var fakeGenerator = A.Fake<IGridGenerator>();
             A.CallTo(() => fakeGenerator.Generate(A<int>._, A<int>._))
                 .Returns(cells);
 
-            var game = new MineSweeper(2, fakeGenerator);
-            var status = game.PlayTurn(0, 0);
+            var game = new MineSweeper(3, fakeGenerator);
+            var status = game.PlayTurn(0, 0, TurnType.DiscoverCell);
 
             status.Should().Be(GameStatus.InProgress);
         }
@@ -64,18 +64,18 @@ namespace MineSweeper.Tests
         {
             var cells = new Cell[,]
             {
-                { new(), new() },
-
-                { new(), new() {IsMine = true} },
+                { new(), new(), new() },
+                { new(), new() {IsMine = true}, new() },
+                { new(), new(), new() }
             };
 
             var fakeGenerator = A.Fake<IGridGenerator>();
             A.CallTo(() => fakeGenerator.Generate(A<int>._, A<int>._))
                 .Returns(cells);
 
-            var game = new MineSweeper(2, fakeGenerator);
+            var game = new MineSweeper(3, fakeGenerator);
 
-            game.PlayTurn(0, 0);
+            game.PlayTurn(0, 0, TurnType.DiscoverCell);
 
             var cell = game.GetCell(0, 0);
             cell.IsDiscovered.Should().BeTrue();
@@ -86,15 +86,17 @@ namespace MineSweeper.Tests
         {
             var cells = new Cell[,]
             {
-                { new() { IsMine = true } },
+                { new() {IsMine = true}, new(), new() },
+                { new(), new(), new() },
+                { new(), new(), new() }
             };
 
             var fakeGenerator = A.Fake<IGridGenerator>();
             A.CallTo(() => fakeGenerator.Generate(A<int>._, A<int>._))
                 .Returns(cells);
 
-            var game = new MineSweeper(1, fakeGenerator);
-            var status = game.PlayTurn(0, 0);
+            var game = new MineSweeper(3, fakeGenerator);
+            var status = game.PlayTurn(0, 0, TurnType.DiscoverCell);
 
             status.Should().Be(GameStatus.Boom);
         }
@@ -115,7 +117,7 @@ namespace MineSweeper.Tests
 
             var game = new MineSweeper(3, fakeGenerator);
 
-            game.PlayTurn(0, 0);
+            game.PlayTurn(0, 0, TurnType.DiscoverCell);
 
             game.GetCell(0, 0).IsDiscovered.Should().BeTrue();
             game.GetCell(0, 1).IsDiscovered.Should().BeTrue();
@@ -134,7 +136,7 @@ namespace MineSweeper.Tests
         {
             var mineSweeper = new MineSweeper(3, gridGenerator);
 
-            mineSweeper.PlayTurn(0, 0, TurnType.PlaceFlag);
+            mineSweeper.PlayTurn(0, 0, TurnType.ToggleFlag);
 
             mineSweeper.GetCell(0, 0).IsFlagged.Should().BeTrue();
         }

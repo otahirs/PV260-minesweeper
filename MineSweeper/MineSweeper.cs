@@ -15,7 +15,7 @@ namespace MineSweeper
             if (size < 3 || size > 50)
             {
                 throw new ArgumentException("Size of the game plan has to be between" +
-                                            "3 and 50!");
+                                            " 3 and 50!");
             }
             
             var random = new Random();
@@ -25,10 +25,20 @@ namespace MineSweeper
             grid = new Grid(size, mineCount, gridGenerator);
         }
 
-        public GameStatus PlayTurn(int x, int y)
+        public GameStatus PlayTurn(int x, int y, TurnType turnType)
         {
             var cell = grid.GetCell(x, y);
-            
+
+            return turnType switch
+            {
+                TurnType.DiscoverCell => PlayTurnDiscover(cell),
+                TurnType.ToggleFlag => PlayTurnFlag(cell),
+                _ => throw new ArgumentException("Invalid Turn Type")
+            };
+        }
+
+        private GameStatus PlayTurnDiscover(Cell cell)
+        {
             if (cell.IsMine)
             {
                 return GameStatus.Boom;
@@ -36,6 +46,12 @@ namespace MineSweeper
 
             DiscoverCells(cell);
 
+            return GameStatus.InProgress;
+        }
+        
+        private GameStatus PlayTurnFlag(Cell cell)
+        {
+            cell.IsFlagged = !cell.IsFlagged;
             return GameStatus.InProgress;
         }
 
@@ -56,7 +72,13 @@ namespace MineSweeper
         public CellDto GetCell(int x, int y)
         {
             var cell = grid.GetCell(x, y);
-            return new CellDto {X = x, Y = y, IsDiscovered = cell.IsDiscovered};
+            return new CellDto 
+            {
+                X = x,
+                Y = y,
+                IsDiscovered = cell.IsDiscovered,
+                IsFlagged = cell.IsFlagged
+            }; 
         }
     }
 }

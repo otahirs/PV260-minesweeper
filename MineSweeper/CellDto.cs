@@ -5,5 +5,6 @@
         public int X { get; set; }
         public int Y { get; set; }
         public bool IsDiscovered { get; set; }
+        public bool IsFlagged { get; set; }
     }
 }
