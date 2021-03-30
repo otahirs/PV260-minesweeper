@@ -130,6 +130,17 @@ namespace MineSweeper.Tests
         }
 
         [Test]
+        public void PutsFlag_CellGetsFlagged()
+        {
+            var mineSweeper = new MineSweeper(3, gridGenerator);
+
+            mineSweeper.PlayTurn(0, 0, TurnType.PlaceFlag);
+
+            mineSweeper.GetCell(0, 0).IsFlagged.Should().BeTrue();
+        }
+        
+        
+        [Test]
         public void TurnPlayedAllDiscovered_Win()
         {
 
