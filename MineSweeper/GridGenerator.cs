@@ -4,7 +4,7 @@ namespace MineSweeper
 {
     public class GridGenerator : IGridGenerator
     {
-        //TODO refactor exceptions
+        //TODO refactor exceptions 
         public Cell[,] Generate(int size, int mineCount)
         {
             if (size < 1)

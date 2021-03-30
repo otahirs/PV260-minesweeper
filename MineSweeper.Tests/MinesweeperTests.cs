@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using NUnit.Framework;
 using FakeItEasy;
 using FluentAssertions;
@@ -162,7 +161,5 @@ namespace MineSweeper.Tests
 
             gameStatus.Should().Be(GameStatus.Win);
         }
-
-
     }
 }
