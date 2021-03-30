@@ -1,4 +1,4 @@
-﻿using MineSweeper.Extensions;
+﻿using MineSweeper.Helpers;
 using System;
 
 namespace MineSweeper
@@ -62,7 +62,7 @@ namespace MineSweeper
                 for (var row = cell.X - 1; row <= cell.X + 1; row++)
                 for (var col = cell.Y - 1; col <= cell.Y + 1; col++)
                 {
-                    if (row.IsInRange(0, size) && col.IsInRange(0, size) && cells[row, col].IsMine)
+                    if (CellHelpers.IsValidCell(row, col, size) && cells[row, col].IsMine)
                         cell.WarnCount++;
                 }
             }

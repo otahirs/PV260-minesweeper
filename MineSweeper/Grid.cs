@@ -1,4 +1,4 @@
-﻿using MineSweeper.Extensions;
+﻿using MineSweeper.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,11 +22,11 @@ namespace MineSweeper
         {
             var result = new List<Cell>();
 
-            for (var i = cell.X - 1; i <= cell.X + 1; i++)
-            for (var j = cell.Y - 1; j <= cell.Y + 1; j++)
+            for (var row = cell.X - 1; row <= cell.X + 1; row++)
+            for (var col = cell.Y - 1; col <= cell.Y + 1; col++)
             {
-                if (i.IsInRange(0, size) && j.IsInRange(0, size) && (i != cell.X || j != cell.Y))
-                    result.Add(GetCell(i,j));
+                if (CellHelpers.IsValidCell(row, col, size) && (row != cell.X || col != cell.Y))
+                    result.Add(GetCell(row,col));
             }
             return result;
         }
