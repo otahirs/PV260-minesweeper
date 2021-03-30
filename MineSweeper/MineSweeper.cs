@@ -21,7 +21,22 @@ namespace MineSweeper
 
         public GameStatus PlayTurn(int x, int y)
         {
-            return GameStatus.Boom;
+            var cell = grid.GetCell(x, y);
+            
+            if (cell.IsMine)
+            {
+                return GameStatus.Boom;
+            }
+
+            cell.IsDiscovered = true;
+
+            return GameStatus.InProgress;
+        }
+
+        public CellDto GetCell(int x, int y)
+        {
+            var cell = grid.GetCell(x, y);
+            return new CellDto {X = x, Y = y, IsDiscovered = cell.IsDiscovered};
         }
     }
 }
