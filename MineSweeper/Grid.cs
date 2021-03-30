@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MineSweeper
 {
@@ -27,5 +29,8 @@ namespace MineSweeper
             }
             return result;
         }
+
+        public IEnumerable<Cell> GetCells() 
+            => _grid.Cast<Cell>();
     }
 }

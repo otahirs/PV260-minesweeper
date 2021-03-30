@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace MineSweeper
 {
@@ -29,14 +30,26 @@ namespace MineSweeper
         {
             var cell = grid.GetCell(x, y);
 
-            return turnType switch
+            var gameStatus = turnType switch
             {
                 TurnType.DiscoverCell => PlayTurnDiscover(cell),
                 TurnType.ToggleFlag => PlayTurnFlag(cell),
                 _ => throw new ArgumentException("Invalid Turn Type")
             };
+
+            if (gameStatus != GameStatus.InProgress)
+            {
+                return gameStatus;
+            }
+
+            return CheckWin();
         }
 
+        private GameStatus CheckWin() 
+            => grid.GetCells().All(cell => cell.IsCompleted)
+                ? GameStatus.Win 
+                : GameStatus.InProgress;
+        
         private GameStatus PlayTurnDiscover(Cell cell)
         {
             if (cell.IsMine)
@@ -69,16 +82,7 @@ namespace MineSweeper
             }
         }
 
-        public CellDto GetCell(int x, int y)
-        {
-            var cell = grid.GetCell(x, y);
-            return new CellDto 
-            {
-                X = x,
-                Y = y,
-                IsDiscovered = cell.IsDiscovered,
-                IsFlagged = cell.IsFlagged
-            }; 
-        }
+        public Cell GetCell(int x, int y) 
+            => grid.GetCell(x, y);
     }
 }
