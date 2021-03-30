@@ -145,7 +145,22 @@ namespace MineSweeper.Tests
         [Test]
         public void TurnPlayedAllDiscovered_Win()
         {
+            var cells = new Cell[,]
+            {
+                { new() {X = 0, Y = 0, WarnCount = 0, IsDiscovered = true}, new() {X = 0, Y = 1, WarnCount = 0, IsDiscovered = true}, new() {X = 0, Y = 2, WarnCount = 0, IsDiscovered = true} },
+                { new() {X = 1, Y = 0, WarnCount = 0, IsDiscovered = true}, new() {X = 1, Y = 1, WarnCount = 1, IsDiscovered = true}, new() {X = 1, Y = 2, WarnCount = 1, IsDiscovered = true} },
+                { new() {X = 2, Y = 0, WarnCount = 0, IsDiscovered = true}, new() {X = 2, Y = 1, WarnCount = 1, IsDiscovered = true}, new() {X = 2, Y = 2, IsMine = true} },
+            };
+            
+            var fakeGenerator = A.Fake<IGridGenerator>();
+            A.CallTo(() => fakeGenerator.Generate(A<int>._, A<int>._))
+                .Returns(cells);
 
+            var game = new MineSweeper(3, fakeGenerator);
+
+            var gameStatus = game.PlayTurn(2, 2, TurnType.ToggleFlag);
+
+            gameStatus.Should().Be(GameStatus.Win);
         }
 
 
