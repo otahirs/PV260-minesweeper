@@ -12,6 +12,12 @@ namespace MineSweeper
         
         public MineSweeper(int size, IGridGenerator gridGenerator)
         {
+            if (size < 3 || size > 50)
+            {
+                throw new ArgumentException("Size of the game plan has to be between" +
+                                            "3 and 50!");
+            }
+            
             var random = new Random();
             var minesPercent = random.Next(MinePercentageLowerBound, MinePercentageUpperBound + 1);
             mineCount = (int) (( minesPercent / 100.0 ) * size * size);

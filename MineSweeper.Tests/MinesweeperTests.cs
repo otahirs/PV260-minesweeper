@@ -1,3 +1,5 @@
+using System;
+using System.Drawing;
 using NUnit.Framework;
 using FakeItEasy;
 using FluentAssertions;
@@ -14,7 +16,29 @@ namespace MineSweeper.Tests
             gridGenerator = new GridGenerator();
         }
 
+        [Test]
+        [TestCase(-1)]
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(51)]
+        public void GivenInvalidSizes_ThrowsArgumentException(int size)
+        {
 
+            Action act = () => new MineSweeper(size, gridGenerator);
+
+            act.Should().Throw<ArgumentException>();
+        }
+        
+        [Test]
+        [TestCase(3)]
+        [TestCase(50)]
+        public void GivenValidSizes_CreatesValidMineSweeper(int size)
+        {
+            Action act = () => new MineSweeper(size, gridGenerator);
+
+            act.Should().NotThrow<Exception>();
+        }
+        
         [Test]
         public void TurnPlayedEmptyCellDiscovered_TurnOK()
         {
