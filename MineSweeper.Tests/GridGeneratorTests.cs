@@ -61,16 +61,16 @@ namespace MineSweeper.Tests
         {
             var expectedMatrix =  new Cell[,]
             {
-                { new() { IsMine = true }, new() { WarnCount = 1 }, new() },
-                { new() { WarnCount = 3 }, new() { WarnCount = 3 }, new() { WarnCount = 1 } },
-                { new() { IsMine = true }, new() { IsMine = true }, new() { WarnCount = 1 } }
+                { new() { X = 0, Y = 0, IsMine = true }, new() { X = 0, Y = 1, WarnCount = 1 }, new() { X = 0, Y = 2, WarnCount = 0 } },
+                { new() { X = 1, Y = 0, WarnCount = 3 }, new() { X = 1, Y = 1, WarnCount = 3 }, new() { X = 1, Y = 2, WarnCount = 1 } },
+                { new() { X = 2, Y = 0, IsMine = true }, new() { X = 2, Y = 1, IsMine = true }, new() { X = 2, Y = 2, WarnCount = 1 } },
             };
             
             var cells =  new Cell[,]
             {
-                { new() { IsMine = true }, new(), new() },
-                { new(), new(), new() },
-                { new() { IsMine = true }, new() { IsMine = true }, new() }
+                { new() { X = 0, Y = 0, IsMine = true }, new() { X = 0, Y = 1 }, new() { X = 0, Y = 2 } },
+                { new() { X = 1, Y = 0 }, new() { X = 1, Y = 1 }, new() { X = 1, Y = 2 } },
+                { new() { X = 2, Y = 0, IsMine = true }, new() { X = 2, Y = 1, IsMine = true }, new() { X = 2, Y = 2 } },
             };
 
             gridGenerator.ComputeWarnCount(cells, 3);

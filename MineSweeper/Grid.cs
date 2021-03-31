@@ -1,35 +1,37 @@
-﻿using System.Collections.Generic;
+﻿using MineSweeper.Helpers;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MineSweeper
 {
-    public class Grid
+    public class Grid : IGrid
     {
-        private  Cell[,] _grid;
-        public int Size { get; }
+        private readonly Cell[,] grid;
+        private readonly int size; 
 
-        public Grid(int size, int mineCount, IGridGenerator generator)
+        public Grid(int size, Cell[,] cells)
         {
-            Size = size;
-            _grid = generator.Generate(size, mineCount);
+            this.size = size;
+            grid = cells;
         }
 
         public Cell GetCell(int x, int y)
-            => _grid[x, y];
+            => grid[x, y];
 
         public IEnumerable<Cell> GetNeighbours(Cell cell)
         {
             var result = new List<Cell>();
-            for (var i = cell.X - 1; i <= cell.X + 1; i++)
-            for (var j = cell.Y - 1; j <= cell.Y + 1; j++)
+
+            for (var row = cell.X - 1; row <= cell.X + 1; row++)
+            for (var col = cell.Y - 1; col <= cell.Y + 1; col++)
             {
-                if (i >= 0 && i < Size && j >= 0 && j < Size && (i != cell.X || j != cell.Y))
-                    result.Add(GetCell(i,j));
+                if (CellHelpers.IsValidCell(row, col, size) && (row != cell.X || col != cell.Y))
+                    result.Add(GetCell(row,col));
             }
             return result;
         }
 
         public IEnumerable<Cell> GetCells() 
-            => _grid.Cast<Cell>();
+            => grid.Cast<Cell>();
     }
 }
