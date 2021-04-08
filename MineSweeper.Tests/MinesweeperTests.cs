@@ -159,5 +159,52 @@ namespace MineSweeper.Tests
 
             gameStatus.Should().Be(GameStatus.Win);
         }
+
+        [Test]
+        [TestCase(0, 0)]
+        [TestCase(2, 0)]
+        [TestCase(0, 2)]
+        public void GetCell_RequestedCellInBounds_ReturnsCellCorrectly(int x, int y)
+        {
+            var cells = new Cell[,]
+            {
+                { new() {IsMine = true}, new(), new() },
+                { new(), new(), new() },
+                { new(), new(), new() }
+            };
+
+            var fakeGenerator = A.Fake<IGridGenerator>();
+            A.CallTo(() => fakeGenerator.Generate(A<int>._, A<int>._))
+                .Returns(cells);
+
+            var game = new MineSweeper(3, fakeGenerator);
+            
+            var expectedCell = cells[x, y];
+            var actualCell = game.GetCell(x, y);
+
+            actualCell.Should().Be(expectedCell);
+        }
+
+        [Test]
+        public void GetCell_RequestedCellOutsideBounds_ThrowsException()
+        {
+            const int size = 3;
+            var cells = new Cell[,]
+            {
+                { new() {IsMine = true}, new(), new() },
+                { new(), new(), new() },
+                { new(), new(), new() }
+            };
+
+            var fakeGenerator = A.Fake<IGridGenerator>();
+            A.CallTo(() => fakeGenerator.Generate(A<int>._, A<int>._))
+                .Returns(cells);
+
+            var game = new MineSweeper(3, fakeGenerator);
+            
+            Action act = () => game.GetCell(size + 42, size + 42);
+
+            act.Should().Throw<IndexOutOfRangeException>();
+        }
     }
 }
