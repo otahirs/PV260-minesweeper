@@ -2,6 +2,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MineSweeper.Tests
 {
@@ -36,7 +37,7 @@ namespace MineSweeper.Tests
             var cells = gridGenerator.Generate(size, mineCount);
             var g = new Grid(size, cells);
 
-            Action act = () => g.GetCell(42, 42);
+            Action act = () => g.GetCell(size + 42, size + 42);
 
             act.Should().Throw<IndexOutOfRangeException>();
         }
@@ -77,6 +78,21 @@ namespace MineSweeper.Tests
             };
 
             g.GetNeighbours(g.GetCell(1, 0)).Should().BeEquivalentTo(expectedNeighbours);
+        }
+
+        [Test]
+        public void GivenGridCells_GetAllCells_GridReturnsAllCorrectly()
+        {
+            const int size = 3;
+            const int mineCount = 3;
+
+            var cells = gridGenerator.Generate(size, mineCount);
+            var grid = new Grid(size, cells);
+
+            var expectedCells = cells.Cast<Cell>();
+            var actualCells = grid.GetCells();
+
+            actualCells.Should().BeEquivalentTo(expectedCells);
         }
     }
 }
