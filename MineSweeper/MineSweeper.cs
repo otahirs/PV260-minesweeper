@@ -59,10 +59,10 @@ namespace MineSweeper
                 return gameStatus;
             }
 
-            return CheckIsWin();
+            return IsWinOrInProgress();
         }
 
-        private GameStatus CheckIsWin() 
+        private GameStatus IsWinOrInProgress() 
             => grid.GetCells().All(cell => cell.IsCompleted)
                 ? GameStatus.Win 
                 : GameStatus.InProgress;
