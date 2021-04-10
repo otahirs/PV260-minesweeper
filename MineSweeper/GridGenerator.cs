@@ -19,6 +19,7 @@ namespace MineSweeper
 
             var cells = CreateCells(size);
             FillMines(cells, size, mineCount);
+            ComputeWarnCount(cells, size);
             
             return cells;
         }
